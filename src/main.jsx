@@ -5,10 +5,12 @@ import './style.css'
 import Login from './login'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Pratique2 from './patique2.jsx'
+// import Header from './Header.jsx'
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <BrowserRouter>
+  {/* <Header/> */}
            <Routes>
             <Route path="/" element={<App/> }/>
             <Route path="/login" element={<Login/> }/>

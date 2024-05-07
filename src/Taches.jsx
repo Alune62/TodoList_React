@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 // Taches.jsx
 import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -12,26 +13,27 @@ export default function Task({ todos, onDelete }) {
     setStateTodos(todos);
   }, [todos]); // Utilisation d'un tableau vide pour que l'effet s'exécute uniquement au montage initial
 
-
-  const FilteredTodo = stateTodos.filter(todo => {
-    if (filtered === "all") return true;
-    if (filtered === "done") return todo.completed;
-    if (filtered === "todo") return !todo.completed;
-  });
-
   const handleDelete = (todoID) => {
     const removedTodo = stateTodos.filter(todo => todo.id !== todoID);
     setStateTodos(removedTodo);
     onDelete(todoID)
   };
 
-  const handleChecked = (todoID) => {
-    setStateTodos(prevTodos => (
-      prevTodos.map(todo => (
-        todo.id === todoID ? { ...todo, checked: !todo.checked } : todo
-      ))
-    ));
+  const handleCheck = (todoID) => {
+    const updatedTodos = stateTodos.map(todo => {
+      if (todo.id === todoID) {
+        return { ...todo, completed: !todo.completed };
+      }
+      return todo;
+    });
+    setStateTodos(updatedTodos);
   };
+
+  const FilteredTodo = stateTodos.filter(todo => {
+    if (filtered === "all") return true;
+    if (filtered === "done") return todo.completed;
+    if (filtered === "todo") return !todo.completed;
+  });
 
   return (
     <div className='todolist'>
@@ -48,13 +50,13 @@ export default function Task({ todos, onDelete }) {
                 <td style={{ paddingRight: '10px' }}>
                   <input
                     type="checkbox"
-                    checked={todo.checked}
-                    onChange={() => handleChecked(todo.id)}
+                    checked={todo.completed}
+                    onChange={() => handleCheck(todo.id)}
                     id={`todo-${todo.id}`}
                   />
                 </td>
-                <td style={{ paddingRight: '10px' }}>
-                  <label htmlFor={`todo-${todo.id}`}>{todo.title}</label>
+                <td style={{ }}>
+                  <label htmlFor={`todo-${todo.id}`} style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}>{todo.title}</label>
                 </td>
                 <td>
                   <button onClick={() => handleDelete(todo.id)} style={{ backgroundColor: 'transparent', border: 'none' }}>

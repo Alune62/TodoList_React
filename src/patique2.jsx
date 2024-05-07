@@ -1,99 +1,78 @@
-import { useEffect, useState } from "react"
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useState, useEffect } from "react";
 
-
-
-export default function Pratique2() {
-    const [todos, setTodos] = useState([])
-    const [value, setValue] = useState('')
-    const [checked, setChecked] = useState(false)
-    const [filtered, setFiltered] = useState('all')
-
-    useEffect(() => {
-        fetch('https://jsonplaceholder.typicode.com/todos?_limit=10')
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-                setTodos(data)
-            })
-    }, [])
+export default function patique2() {
+    const [todos, setTodos] = useState([
+        { id: 1, title: 'simulation de tache à faire', completed: false },
+        { id: 2, title: 'tache à faire', completed: false },
+    ]);
+    console.log(todos);
+    const [value, setValue] = useState('');
+    const [checked, setChecked] = useState(false);
+    const [filtered, setFiltered] = useState ('all')
 
     const handleSubmit = (e) => {
-        e.preventDefault()
-        if (!value.trim()) return false
-        addTask(value)
-        setValue('')
+        e.preventDefault();
+        if (value.trim() !== '') {
+            setTodos([...todos, { id: todos.length + 1, title: value, completed: false }]);
+            setValue(''); // Réinitialise la valeur du champ de saisie
+        }
     }
+  
+    const addTask = (e) => {
+        setValue(e.target.value);
+    };
 
-const FilteredTodos = todos.filter(todo => {
-    if(filtered === "all") return true
-    if(filtered ==="done") return todo.completed
-    if(filtered ==="todo") return !todo.completed
-})
-      // if(checked) return todo.completed
+    const handleChecked = (e) => {
+        setChecked(e.target.checked);
+    };
 
-const addTask = async(newTask) => {
-    try{
-        const response = await fetch('https://jsonplaceholder.typicode.com/todos', {
-        method: "POST",
-        headers: {
-            'Content-type': 'application/json; charset=UTF-8',
-        },
-        body: JSON.stringify({
-            title: newTask,
-            completed: false
-        })
+    const FilteredTodo = todos.filter(todo => {
+        if(filtered === "all") return true
+        if(filtered === "done") return todo.completed
+        if(filtered === "todo") return !todo.completed
     })
+    // useEffect(() => {
+    //     // Mettre à jour le filtre pour afficher toutes les todos par défaut
+    //     setFiltered('all');
+    // }, []);
 
-     const data = await response.json()
-     console.log(data);
-     setTodos(prevTodos => [...prevTodos, { id: data.id, title: newTask, completed: false }]);
-     
-    } catch (error){
-        console.error('Error adding task:', error);
-    }
-}
+    return (
+        <div>
+            <h1 style={{ display: 'flex', justifyContent: 'center', margin: 0, padding: '10px', color: 'white', background: 'rgb(0, 157, 255)' }}> TodoList </h1>
 
-const DeleteTask = async(todoId) => {
-    await fetch(`https://jsonplaceholder.typicode.com/todos/${todoId}`, {
-        method: 'DELETE'
-    })
+            <div className="formControl" style={{ marginTop: '5rem', }}>
+                <form onSubmit={handleSubmit}>
+                    <input
+                        type="text"
+                        placeholder="Ajouter vos taches"
+                        value={value} // Utilise la valeur de l'état value
+                        onChange={addTask}
+                        style={{ width: '65vw', padding: '10px', borderRadius: '10px', background: 'transparent', border: '1px solid white', color: 'white' }}
+                    />
 
-    setTodos(todos.filter(todo => todo.id !== todoId))
-}
-
-
-return (
-        <>
-            <form onSubmit={handleSubmit}>
-                <input
-                    type="text"
-                    placeholder="Ajouter tache"
-                    value={value}
-                    onChange={(e) => setValue(e.target.value)} />
-                <button type="submit">Ajouter</button>
-            </form>
-            <div>
-                <button type="button" onClick={()=> setFiltered("all")}>Toutes</button>
-                <button type="button" onClick={()=> setFiltered("done")}>Fait(s)</button>
-                <button type="button" onClick={()=> setFiltered("todo")}>A Faire</button>
+                    <button type="submit" style={{ marginLeft: '1rem', padding: '8px', width: '100px', borderRadius: '10px', background: 'rgb(0, 157, 255)', color: 'white', fontSize: '25px' }}>Ajouter</button>
+                </form>
             </div>
-            <table>
-                <tbody>
-                    {FilteredTodos.map(todo => (
-                        <tr key={todo.id}>
-                            <td><input type="checkbox" checked={checked.id} onChange={() => setChecked(!checked)} /></td>
-                            <td style={{ color: 'white' }}>{todo.title}</td>
-                            <td>
-                                <button type="button" onClick={() => DeleteTask(todo.id)}>
-                                    <FontAwesomeIcon icon={faTrashAlt} />
-                                </button>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-        </>
-    )
+
+            <div className="filterButton" style={{ margin: '3rem' }}>
+                <button  type='button' onClick={() => setFiltered('all')} style={{ padding: '10px', width: '33%', background: 'transparent', border: '1px solid white', color: 'white', borderRadius: '10px', }}>Toutes</button>
+                <button  type='button' onClick={() => setFiltered('todo')} style={{ padding: '10px', width: '33%', background: 'transparent', border: '1px solid white', color: 'white', borderRadius: '10px' }}>A Faire</button>
+                <button  type='button' onClick={() => setFiltered('done')} style={{ padding: '10px', width: '33%', background: 'transparent', border: '1px solid white', color: 'white', borderRadius: '10px' }}>Faits</button>
+            </div>
+
+            <div className="todoList" style={{ margin: '2rem' }}>
+                {FilteredTodo.map(todo => (
+                    <div key={todo.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '10px', color: 'white', border: '1px solid white', borderRadius: '10px' }}>
+                        <input type="checkbox" checked={checked.id} onChange={handleChecked} style={{ marginLeft: '1rem' }} />
+                        <p style={{ marginLeft: '8px' }}>{todo.title}</p>
+                        <button style={{ background: 'transparent', fontSize: '20px', border: 'none', marginRight: '1rem' }}>
+                            <FontAwesomeIcon icon={faTrashAlt} style={{ color: 'red' }} />
+                        </button>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
 }

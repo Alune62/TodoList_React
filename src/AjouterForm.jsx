@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import './style.css';
 
+// eslint-disable-next-line react/prop-types
 export default function AddTask({ onAddTask }) {
   const [value, setValue] = useState('');
 
@@ -25,10 +26,10 @@ export default function AddTask({ onAddTask }) {
           placeholder='Ajouter tâche...'
           value={value}
           onChange={handleAddTask}
-          style={{ marginRight: '10px' }}
+          style={{width: '65vw', marginRight: '10px', background:'transparent', border: '1px solid white', color:'white' }}
         />
         <button
-          style={{ width: '100px', height: '40px', padding: '8px', border: '1px', borderRadius: '10px', fontSize: '20px' }}
+          style={{ width: '100px', height: '40px', padding: '8px', border: '1px', borderRadius: '10px', fontSize: '20px', backgroundColor: 'rgb(0, 157, 255)', color: 'white' }}
           type='submit'
         >
           Ajouter

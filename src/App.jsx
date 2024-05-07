@@ -1,8 +1,6 @@
 // App.jsx
 import { useState, useEffect } from 'react';
-import { faUser } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import AddTask from './Ajouter';
+import AddTask from './AjouterForm';
 import Task from './Taches';
 import './app.css';
 
@@ -46,8 +44,6 @@ function App() {
     <div>
       <div className='header'>
         <h1>TodoList</h1>
-        <FontAwesomeIcon icon={faUser} style={{fontSize: '50px', marginRight: '30px'}}/>
-
       </div>
       <div>
         <AddTask onAddTask={addTask} />
