@@ -39,9 +39,18 @@ export default function Task({ todos, onDelete }) {
     <div className='todolist'>
       <main>
         <div>
-          <button type='button' onClick={() => setFiltered('all')}>Toutes</button>
-          <button type='button' onClick={() => setFiltered('todo')}>A Faire</button>
-          <button type='button' onClick={() => setFiltered('done')}>Faits</button>
+        <button
+                    className={filtered === 'all' ? 'filter active' : 'filter'}
+                    type="button"
+                    onClick={() => setFiltered('all')}>Toutes</button>
+                <button
+                    className={filtered === 'todo' ? 'filter active' : 'filter'}
+                    type='button'
+                    onClick={() => setFiltered('todo')}>A Faire</button>
+                <button
+                    className={filtered === 'done' ? 'filter active' : 'filter'}
+                    type='button'
+                    onClick={() => setFiltered('done')}>Faits</button>
         </div>
         <table style={{ color: 'white', fontSize: '40px', borderCollapse: 'collapse' }}>
           <tbody>

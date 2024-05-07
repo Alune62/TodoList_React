@@ -1,10 +1,11 @@
 .header{
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     color: white;
     background-color:rgb(0, 157, 255);
 }
+
 
 .saisie{
     width: 450px;
@@ -57,3 +58,30 @@ main button:hover{
     color: #ffffff;
 }
 
+.filterButton{
+    margin: 3rem;
+}
+.filterButton button{
+    padding: 10px;
+      width: 33%;
+      background-color: transparent;
+      border: 1px solid white;
+      color: white;
+      border-radius: 10px;
+      font-size: 20px;
+}
+
+.filterButton button:hover {
+    background-color: rgb(0, 157, 255);
+    transition: background-color 0.3s ease;
+  }
+  .filterButton button.active {
+    background-color: rgb(0, 157, 255); /* Active background color */
+  }
+.todolist button:hover {
+    background-color: rgb(0, 157, 255);
+    transition: background-color 0.3s ease;
+  }
+  .todolist button.active {
+    background-color: rgb(0, 157, 255); /* Active background color */
+  }
